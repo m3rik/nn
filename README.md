@@ -8,9 +8,9 @@ Pycharm Community Edition: https://www.jetbrains.com/pycharm/download/#section=w
 
 ## Instalation
 
-For CNTK, follow the steps in this wiki: https://github.com/Microsoft/CNTK/wiki/Setup-Windows-Binary-Script
-
-For PyCharm, run the installer.
+For **CNTK**, follow the steps in this wiki: https://github.com/Microsoft/CNTK/wiki/Setup-Windows-Binary-Script  
+*Attention: Have at least 5 free GB in C:\.*  
+For **PyCharm**, run the installer.  
 
 Now, you must do two things:
 * update path variable with your path to %cntk_folder%\cntk (in my case: C:\Users\Paul\Desktop\cntk\cntk)
