@@ -89,8 +89,8 @@ class NeuralNet:
 
         conv = Convolution((3, 3), 5, activation=relu)(self.input_var)
         conv = Convolution((5, 5), 5, activation=relu)(conv)
-        conv = Convolution((5, 5), 5, activation=relu)(conv)
-        conv = Convolution((5, 5), 5, activation=relu)(conv)
+        #conv = Convolution((5, 5), 5, activation=relu)(conv)
+        #conv = Convolution((5, 5), 5, activation=relu)(conv)
         # conv = Convolution((3, 3), 5, activation=relu)(conv)
         # conv = Convolution((3, 3), 5, activation=relu)(conv)
         self.z = Convolution((5, 5), 1, activation=sigmoid)(conv)
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     props = regionprops(mask)
 
     limit_area = 64 * 64
-    insz = 20
+    insz = 12
     outsz = 2
     diff = int((insz - outsz) / 2)
     step = 5
