@@ -126,8 +126,8 @@ class NeuralNet:
 
 if __name__ == '__main__':
     path = "../data/similar_objects/"
-    img = path + "1.JPG"
-    mask = path + "1m.jpg"
+    img = path + "8.JPG"
+    mask = path + "8m.jpg"
 
     img = imread(img)
     mask = imread(mask, as_grey=True).astype(np.uint8)
