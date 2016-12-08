@@ -10,6 +10,8 @@ from cntk.device import cpu, set_default_device
 from cntk.learner import sgd
 from cntk.ops import *
 
+import pickle
+
 
 # Ensure we always get the same amount of randomness
 np.random.seed(0)
@@ -17,28 +19,6 @@ np.random.seed(0)
 
 # Define a dictionary to store the model parameters
 mydict = {"w":None,"b":None}
-
-# Helper function to generate a random data sample
-def generate_random_data_sample(sample_size, feature_dim, num_classes):
-    # Create synthetic data using NumPy.
-    Y = np.random.randint(size=(sample_size, 1), low=0, high=num_classes)
-
-    # Make sure that the data is separable
-    X = (np.random.randn(sample_size, feature_dim)+3) * (Y+1)
-
-    # Specify the data type to match the input variable used later in the tutorial
-    # (default type is double)
-    X = X.astype(np.float32)
-
-    # converting class 0 into the vector "1 0 0",
-    # class 1 into vector "0 1 0", ...
-    class_ind = [Y==class_number for class_number in range(num_classes)]
-    Y = np.asarray(np.hstack(class_ind), dtype=np.float32)
-    return X, Y
-
-
-
-
 
 def linear_layer(input_var, output_dim):
     input_dim = input_var.shape[0]
@@ -69,22 +49,41 @@ def print_training_progress(trainer, mb, frequency, verbose=1):
 
     return mb, training_loss, eval_error
 
+def transform_labels(labels, classes=10):
+    new_labels = np.zeros((labels.shape[0], classes), dtype=np.float32)
+    for i in range(labels.shape[0]):
+        new_labels[i, int(labels[i])] = 1
+    return new_labels
+
 if __name__ == '__main__':
-    input_dim = 2
-    num_output_classes = 2
+    input_dim = 784
+    num_output_classes = 10
     output_dim = num_output_classes
 
-    mysamplesize = 32
+    trainfile = 'data/MNIST/train.pickle'
+    testfile = 'data/MNIST/test.pickle'
 
-    features, labels = generate_random_data_sample(mysamplesize, input_dim, num_output_classes)
+    with open(trainfile, 'rb') as handle:
+        traindata = pickle.load(handle)
 
-    # given this is a 2 class
-    colors = ['r' if l == 0 else 'b' for l in labels[:, 0]]
+    with open(testfile, 'rb') as handle:
+        testdata = pickle.load(handle)
 
-    plt.scatter(features[:, 0], features[:, 1], c=colors)
-    plt.xlabel("Scaled age (in yrs)")
-    plt.ylabel("Tumor size (in cm)")
-    plt.show()
+    traindata = np.array(traindata).astype(np.float32)
+    testdata = np.array(testdata).astype(np.float32)
+
+    limit = 1000
+
+    features = traindata[:limit, :784] / 256
+    labels = traindata[:limit, -1]
+
+    labels = transform_labels(labels)
+
+    tfeatures = testdata[:limit, :784] / 256
+    tlabels = testdata[:limit, -1]
+
+    tlabels = transform_labels(tlabels)
+
 
     input = input_variable(input_dim, np.float32)
 
@@ -96,25 +95,29 @@ if __name__ == '__main__':
     loss = cross_entropy_with_softmax(z, label)
     eval_error = classification_error(z, label)
 
-    learning_rate = 0.5
+    learning_rate = 0.1
     lr_schedule = learning_rate_schedule(learning_rate, UnitType.minibatch)
     learner = sgd(z.parameters, lr_schedule)
     trainer = Trainer(z, loss, eval_error, [learner])
 
     # Initialize the parameters for the trainer
-    minibatch_size = 25
-    num_samples_to_train = 20000
+    minibatch_size = 10
+    num_samples_to_train = limit * 10
     num_minibatches_to_train = int(num_samples_to_train / minibatch_size)
 
     training_progress_output_freq = 50
 
     plotdata = {"batchsize": [], "loss": [], "error": []}
 
+
+    j = 0
     for i in range(0, num_minibatches_to_train):
-        features, labels = generate_random_data_sample(minibatch_size, input_dim, num_output_classes)
+        features_batch = features[j:j+minibatch_size,:]
+        labels_batch = labels[j:j+minibatch_size]
+        j = (j + minibatch_size) % limit
 
         # Specify input variables mapping in the model to actual minibatch data to be trained with
-        trainer.train_minibatch({input: features, label: labels})
+        trainer.train_minibatch({input: features_batch, label: labels_batch})
         batchsize, loss, error = print_training_progress(trainer, i,
                                                          training_progress_output_freq, verbose=1)
 
@@ -140,10 +143,9 @@ if __name__ == '__main__':
     plt.title('Minibatch run vs. Label Prediction Error')
     plt.show()
 
-    test_minibatch_size = 25
-    features, labels = generate_random_data_sample(test_minibatch_size, input_dim, num_output_classes)
+    test_minibatch_size = 10000
 
-    error = trainer.test_minibatch({input: features, label: labels})
+    error = trainer.test_minibatch( {input: tfeatures, label: tlabels})
     print("Error test: " + str(error))
 
     out = softmax(z)
@@ -152,17 +154,11 @@ if __name__ == '__main__':
     print("Label    :", np.argmax(labels[:25], axis=1))
     print("Predicted:", np.argmax(result[0, :25, :], axis=1))
 
-    # Model parameters
-    print(mydict['b'].value)
-
     bias_vector = mydict['b'].value
     weight_matrix = mydict['w'].value
 
-    # given this is a 2 class
-    colors = ['r' if l == 0 else 'b' for l in labels[:, 0]]
-    plt.scatter(features[:, 0], features[:, 1], c=colors)
-    plt.plot([0, bias_vector[0] / weight_matrix[0][1]],
-             [bias_vector[1] / weight_matrix[0][0], 0], c='g', lw=3)
-    plt.xlabel("Scaled age (in yrs)")
-    plt.ylabel("Tumor size (in cm)")
-    plt.show()
+    for wi in range(10):
+        weight_mat = np.array(weight_matrix[:, wi]).reshape(28, 28)
+        plt.matshow(weight_mat)
+        plt.show()
+

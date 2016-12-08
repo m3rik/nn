@@ -4,6 +4,7 @@ import numpy as np
 import sys
 import os
 
+
 from cntk import Trainer, cntk_device, StreamConfiguration, learning_rate_schedule, UnitType
 from cntk.utils import get_train_eval_criterion, get_train_loss
 from cntk.device import cpu, set_default_device
@@ -37,15 +38,13 @@ def generate_random_data_sample(sample_size, feature_dim, num_classes):
     return X, Y
 
 
-
-
-
 def linear_layer(input_var, output_dim):
     input_dim = input_var.shape[0]
     weight_param = parameter(shape=(input_dim, output_dim))
     bias_param = parameter(shape=(output_dim))
 
     mydict['w'], mydict['b'] = weight_param, bias_param
+
     return times(input_var, weight_param) + bias_param
 
 
@@ -74,7 +73,7 @@ if __name__ == '__main__':
     num_output_classes = 2
     output_dim = num_output_classes
 
-    mysamplesize = 32
+    mysamplesize = 128
 
     features, labels = generate_random_data_sample(mysamplesize, input_dim, num_output_classes)
 
