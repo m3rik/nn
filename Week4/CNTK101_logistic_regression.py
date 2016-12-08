@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-
 import numpy as np
 import sys
 import os
@@ -57,7 +55,7 @@ def moving_average(a, w=10):
 
 
 # Defines a utility that prints the training progress
-def print_training_progress(trainer, mb, frequency, verbose=1):
+def print_training_progress(trainer, mb, frequency, verbose=True):
     training_loss, eval_error = "NA", "NA"
 
     if mb % frequency == 0:
@@ -80,6 +78,7 @@ if __name__ == '__main__':
     # given this is a 2 class
     colors = ['r' if l == 0 else 'b' for l in labels[:, 0]]
 
+    import matplotlib.pyplot as plt
     plt.scatter(features[:, 0], features[:, 1], c=colors)
     plt.xlabel("Scaled age (in yrs)")
     plt.ylabel("Tumor size (in cm)")
