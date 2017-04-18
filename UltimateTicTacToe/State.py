@@ -22,14 +22,14 @@ class State:
         for i in range(9):
             for j in range(9):
                 if self.board[i,j] == 0:
-                    print('.',)
+                    print('.', end='')
                 elif self.board[i,j] == 1:
-                    print('X',)
+                    print('X', end='')
                 else:
-                    print('O',)
+                    print('O', end='')
 
                 if (j + 1) % 3 == 0:
-                    print(' ',)
+                    print(' ', end='')
             print()
             if (i + 1) % 3 == 0:
                 print()
@@ -41,11 +41,11 @@ class State:
         for i in range(3):
             for j in range(3):
                 if self.game[i,j] == 0:
-                    print('.',)
+                    print('.', end='')
                 elif self.game[i,j] == 1:
-                    print('X',)
+                    print('X', end='')
                 else:
-                    print('O',)
+                    print('O', end='')
             print()
         print('=' * 5)
 
