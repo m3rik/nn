@@ -49,16 +49,13 @@ class State:
             print()
         print('=' * 5)
 
-
-
-
     '''
         helper function
     '''
     def _is_finished_minigame(self, minigame):
         for i in range(0, 3):
             is_finished = True
-            if minigame[i,0] == 0:
+            if minigame[i,0] not in [-1,1]:
                 continue
             for j in range(1, 3):
                 if minigame[i,j] != minigame[i,0]:
@@ -67,17 +64,17 @@ class State:
                 return minigame[i,0]
         for j in range(0, 3):
             is_finished = True
-            if minigame[0,j] == 0:
+            if minigame[0,j] not in [-1,1]:
                 continue
             for i in range(1, 3):
                 if minigame[i,j] != minigame[0, j]:
                     is_finished = False
             if is_finished:
                 return minigame[0,j]
-        is_finished = (minigame[0,0] == minigame[1,1]) and (minigame[0,0] == minigame[2,2] and minigame[1,1] != 0)
+        is_finished = (minigame[0,0] == minigame[1,1]) and (minigame[0,0] == minigame[2,2] and minigame[1,1] in [-1,1])
         if is_finished:
                 return minigame[1,1]
-        is_finished = (minigame[2,0] == minigame[1,1]) and (minigame[1,1] == minigame[0,2] and minigame[1,1] != 0)
+        is_finished = (minigame[2,0] == minigame[1,1]) and (minigame[1,1] == minigame[0,2] and minigame[1,1] in [-1,1])
         if is_finished:
                 return minigame[1,1]
         if np.count_nonzero(minigame) == 9:
@@ -143,6 +140,9 @@ class Move:
     def __init__(self, posx, posy):
         self.posx = posx
         self.posy = posy
+
+    def __str__(self):
+        return 'X:' + str(self.posx) + ' Y:' + str(self.posy)
 
 
 
