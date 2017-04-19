@@ -1,9 +1,8 @@
-## Welcome to Ultimate Tic Tac Toe Challenge
+# Welcome to Ultimate Tic Tac Toe Challenge
 
 Amazing, interesting, challenging
 
-## Update Version 1.1
-# Changelog
+## Update: Version 1.1
 - Added more generic state verification.
 - Easy change between one game and n games.
 
