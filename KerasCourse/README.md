@@ -44,3 +44,8 @@ pip3 install --upgrade tensorflow-gpu
 ```
 pip3 install keras
 ```
+
+## Practice
+
+In exercises folder, you will find some practical problems. 
+More details, in the readme file.
