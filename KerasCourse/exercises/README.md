@@ -11,9 +11,9 @@ In mnist_mlp.py, you will find a neural network with fully connected layers that
 * Try to improve the score by changing the number of hidden layers.
 * Try to reproduce underfitting. What is the smallest network? Conclusion?
 * Set a reference network architecture. Compare relu vs signoid units. What do you observe during learning?
-* Use other optimizer than stochastic gradient descent. Read more at: 
-** how they work: http://ruder.io/optimizing-gradient-descent/
-** how to use: https://keras.io/optimizers/
+* Use other optimizer than stochastic gradient descent. Read more at:
+  * how they work: http://ruder.io/optimizing-gradient-descent/
+  * how to use: https://keras.io/optimizers/
 * Try to obtain an accuracy higher than 98 % on the test set.
 
 ## Conv network
