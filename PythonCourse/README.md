@@ -1,6 +1,6 @@
 # Python Course
 
-Mostly links
+Welcome to the most amazing, wonderfull, easy, simple, fast, free course of how to learn by yourself Python!
 
 ## How to learn Python?
 
