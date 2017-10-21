@@ -1,6 +1,6 @@
 import cherrypy
 from cherrypy.process import servers
-
+from motor_controller import start_motor_controller
 
 
 class CarControlAPI:
@@ -30,4 +30,5 @@ def start_webserver(motor_controller):
     cherrypy.quickstart(CarControlAPI(motor_controller))
 
 if __name__ == '__main__':
-    start_webserver()
+    mc = start_motor_controller()
+    start_webserver(mc)
