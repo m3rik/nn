@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 String ip = ((EditText)findViewById(R.id.editTextIP)).getText().toString();
 
-                float speed = ((SeekBar)findViewById(R.id.seekBarSpeed)).getProgress() / 100.0f;
+                float speed = ((SeekBar)findViewById(R.id.seekBarSpeed)).getProgress() / 50.0f - 1.0f;
                 float balance = ((SeekBar)findViewById(R.id.seekBarBalance)).getProgress() / 50.0f - 1.0f;
 
                 try {

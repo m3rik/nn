@@ -30,9 +30,24 @@ class MotorController:
 
             GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BCM)
+
             GPIO.setup(17, GPIO.OUT)
-            self.left_forward = GPIO.PWM(17, 100)
-            self.left_forward.start(50)
+            GPIO.setup(27, GPIO.OUT)
+
+            GPIO.setup(22, GPIO.OUT)
+            GPIO.setup(23, GPIO.OUT)
+
+            self.right_forward = GPIO.PWM(17, 100)
+            self.right_forward.start(0)
+
+            self.right_backward = GPIO.PWM(27, 100)
+            self.right_backward.start(0)
+
+            self.left_forward = GPIO.PWM(22, 100)
+            self.left_forward.start(0)
+
+            self.left_backward = GPIO.PWM(23, 100)
+            self.left_backward.start(0)
 
     def start_timer(self):
         self.timer = Timer(1.0, timer_func, args=[self])
@@ -53,6 +68,34 @@ class MotorController:
         print('Control motors implementation: ' + str(speed) + ' ' + str(balance))
         if os.name != 'nt':
             import RPi.GPIO as GPIO
+            left_speed = speed * 100
+            right_speed = speed * 100
+            modified_speed = (1 - abs(balance)) * 2 * abs(speed)
+            if balance > 0:
+                if speed > 0:
+                    right_speed = (-speed + modified_speed) * 100
+                else:
+                    right_speed = (speed - modified_speed) * 100
+            else:
+                if speed > 0:
+                    left_speed = (-speed + modified_speed) * 100
+                else:
+                    left_speed = (speed - modified_speed) * 100
+
+            if right_speed > 0:
+                self.right_forward.ChangeDutyCycle(right_speed)
+                self.right_backward.ChangeDutyCycle(0)
+            else:
+                self.right_forward.ChangeDutyCycle(0)
+                self.right_backward.ChangeDutyCycle(-right_speed)
+
+            if left_speed > 0:
+                self.left_forward.ChangeDutyCycle(left_speed)
+                self.left_backward.ChangeDutyCycle(0)
+            else:
+                self.left_forward.ChangeDutyCycle(0)
+                self.left_backward.ChangeDutyCycle(-left_speed)
+
 
 
 
