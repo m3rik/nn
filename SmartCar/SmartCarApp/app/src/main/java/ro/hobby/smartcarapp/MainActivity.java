@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
     public void connect(View v)
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
                 float speed = ((SeekBar)findViewById(R.id.seekBarSpeed)).getProgress() / 50.0f - 1.0f;
                 float balance = ((SeekBar)findViewById(R.id.seekBarBalance)).getProgress() / 50.0f - 1.0f;
+                if(Math.abs(speed) < 0.2)
+                    speed = 0;
 
                 try {
                     URL url = new URL("http://" + ip + "/control?speed=" + speed + "&balance=" + balance);

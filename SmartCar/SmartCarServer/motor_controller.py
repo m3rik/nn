@@ -98,6 +98,13 @@ class MotorController:
                 self.left_forward.ChangeDutyCycle(0)
                 self.left_backward.ChangeDutyCycle(-left_speed)
 
+            if speed == 0:
+                self.left_forward.ChangeDutyCycle(0)
+                self.left_backward.ChangeDutyCycle(0)
+                self.right_forward.ChangeDutyCycle(0)
+                self.right_backward.ChangeDutyCycle(0)
+
+
 
 
 
