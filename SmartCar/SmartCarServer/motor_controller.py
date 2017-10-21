@@ -66,6 +66,8 @@ class MotorController:
 
     def control_impl(self, speed, balance):
         print('Control motors implementation: ' + str(speed) + ' ' + str(balance))
+        speed = float(speed)
+        balance = float(balance)
         if os.name != 'nt':
             import RPi.GPIO as GPIO
             left_speed = speed * 100
