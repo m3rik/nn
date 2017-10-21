@@ -83,7 +83,7 @@ class MotorController:
                     left_speed = (-speed + modified_speed) * 100
                 else:
                     left_speed = (speed - modified_speed) * 100
-
+            print('Left speed:' + str(left_speed) + ' Right speed:' + str(right_speed))
             if right_speed > 0:
                 self.right_forward.ChangeDutyCycle(right_speed)
                 self.right_backward.ChangeDutyCycle(0)
