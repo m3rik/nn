@@ -22,6 +22,17 @@ class MotorController:
         self.balance = 0
         self.stopping = False
         self.start_timer()
+        self.setup_rpi()
+
+    def setup_rpi(self):
+        if os.name != 'nt':
+            import RPi.GPIO as GPIO
+
+            GPIO.setwarnings(False)  # do not show any warnings
+            GPIO.setmode(GPIO.BCM)  # we are programming the GPIO by BCM pin numbers. (PIN35 as ‘GPIO19’)
+            GPIO.setup(17, GPIO.OUT)  # initialize GPIO19 as an output.
+            self.left_forward = GPIO.PWM(17, 100)  # GPIO19 as PWM output, with 100Hz frequency
+            self.left_forward.start(50)
 
     def start_timer(self):
         self.timer = Timer(1.0, timer_func, args=[self])
