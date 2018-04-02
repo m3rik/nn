@@ -26,11 +26,12 @@ TensorFlow needs to be installed first and afterward Keras.
 
 ### Steps for getting things working:
 
-1. Anaconda3 - Python3 Distribution with lots of useful libraries (https://repo.continuum.io/archive/Anaconda3-4.4.0-Windows-x86_64.exe)
+1. Anaconda3 - Python3 Distribution with lots of useful libraries (https://www.anaconda.com/download/) (64bit installer + Python 3.6)
 2. Pycharm Community Edition - Python IDE (https://www.jetbrains.com/pycharm/download/#section=windows)
-3. CUDA - https://developer.nvidia.com/cuda-downloads
+3.1. Update Nvidia Driver to R390. www.nvidia.com/drivers
+3.2. CUDA 9.1 - https://developer.nvidia.com/cuda-downloads
 4. Add to PATH CUDA binaries if installer did not do that.
-4. cuDNN v6 or v6.1 - https://developer.nvidia.com/cudnn
+4. cuDNN v7 - https://developer.nvidia.com/cudnn
 5. Add to PATH cuDNN binaries.
 6. Anaconda3 comes with Python 3.6. Open Anaconda3 Prompt from start menu and run: 
 ```
